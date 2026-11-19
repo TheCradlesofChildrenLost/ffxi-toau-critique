@@ -551,7 +551,6 @@ td { padding: 9px 12px; border: 1px solid var(--border-inner); vertical-align: t
     min-width: 0 !important;
     box-sizing: border-box !important;
     padding: 24px 18px !important;
-    overflow: hidden !important;
   }
   .toc-drawer {
     position: fixed; inset: 0; z-index: 650;
