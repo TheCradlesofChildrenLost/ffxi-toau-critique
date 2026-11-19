@@ -272,6 +272,28 @@
     document.getElementById("lightboxNext").addEventListener("click", (e) => { e.stopPropagation(); openLightboxAt(state.lbIndex + 1); });
     lb.addEventListener("click", (e) => { if (e.target === lb) closeLb(); });
 
+    // Touch swipe support for mobile lightbox
+    let touchStartX = 0;
+    let touchStartY = 0;
+    lb.addEventListener("touchstart", (e) => {
+      if (e.touches && e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+    lb.addEventListener("touchend", (e) => {
+      if (e.changedTouches && e.changedTouches.length === 1) {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) > 38 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx < 0) openLightboxAt(state.lbIndex + 1);
+          else openLightboxAt(state.lbIndex - 1);
+        } else if (dy > 60 && Math.abs(dy) > Math.abs(dx)) {
+          closeLb();
+        }
+      }
+    }, { passive: true });
+
     const openGal = () => openLightboxAt(0);
     const b1 = document.getElementById("btnGalleryOpen");
     const b2 = document.getElementById("btnHeroGallery");
@@ -295,6 +317,7 @@
 
     document.querySelectorAll("button.fn-ref").forEach((btn) => {
       btn.addEventListener("mouseenter", () => {
+        if (window.matchMedia && !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
         if (btn.getAttribute("aria-expanded") === "true") return;
         clearTimeout(hideTimer);
         const id = btn.getAttribute("data-fn");
@@ -459,8 +482,15 @@
     if (pt) pt.addEventListener("click", () => window.print());
 
     const drawer = document.getElementById("tocDrawer");
-    document.getElementById("btnOpenToc").addEventListener("click", () => drawer.classList.add("open"));
-    document.getElementById("btnCloseToc").addEventListener("click", () => drawer.classList.remove("open"));
+    const openToc = () => drawer.classList.add("open");
+    const closeToc = () => drawer.classList.remove("open");
+    document.getElementById("btnOpenToc").addEventListener("click", openToc);
+    const mobSec = document.getElementById("mobileCurSec");
+    if (mobSec) mobSec.addEventListener("click", openToc);
+    document.getElementById("btnCloseToc").addEventListener("click", closeToc);
+    drawer.addEventListener("click", (e) => {
+      if (e.target === drawer) closeToc();
+    });
 
     const input = document.getElementById("searchInput");
     const status = document.getElementById("searchStatus");

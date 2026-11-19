@@ -130,10 +130,17 @@
   --shadow-panel: 0 10px 28px rgba(21, 52, 98, 0.08);
 }
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
+  -webkit-text-size-adjust: 100%;
+}
 body {
   margin: 0;
+  overflow-x: hidden;
+  max-width: 100vw;
   background: var(--bg-page);
   background-image: radial-gradient(ellipse at 50% 8%, var(--ambient-glow), transparent 62%);
   color: var(--text-primary);
@@ -142,6 +149,20 @@ body {
   line-height: 1.95;
   -webkit-font-smoothing: antialiased;
   transition: background-color 1.1s ease, color 0.7s ease;
+}
+
+p, li, dd, dt, th, td, figcaption, .footnote-item, .inline-fn-body {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+code, pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 /* ---------- Whisper-Quiet Atmospheric Canvas & Vignette ---------- */
@@ -461,12 +482,13 @@ button.fn-ref:hover, button.fn-ref[aria-expanded="true"] {
 .figure-frame { overflow: hidden; border: 1px solid var(--border-inner); background: #0A0806; position: relative; }
 .figure-frame img { width: 100%; max-height: 440px; object-fit: cover; display: block; cursor: zoom-in; transition: transform 0.35s ease; }
 .figure-frame img:hover { transform: scale(1.018); }
-.svg-wrap { background: #FAF8F4; padding: 10px; border-radius: 3px; }
+.svg-wrap { background: #FAF8F4; padding: 10px; border-radius: 3px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.svg-wrap svg { max-width: 100%; height: auto; display: block; }
 .game-figure figcaption, .diagram-figure figcaption { margin-top: 12px; font-family: var(--font-sans); font-size: 13px; line-height: 1.68; color: var(--text-secondary); }
 .fig-badge { display: inline-block; padding: 1px 8px; margin-right: 6px; background: var(--accent-lapis); color: #F5E6C4; border: 1px solid rgba(212, 170, 90, 0.5); font-size: 11.5px; font-weight: 700; border-radius: 2px; }
 
-.table-wrap { overflow-x: auto; margin: 22px 0 28px; }
-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 13.5px; line-height: 1.65; }
+.table-wrap { overflow-x: auto; margin: 22px 0 28px; -webkit-overflow-scrolling: touch; }
+table { width: 100%; min-width: 480px; border-collapse: collapse; font-family: var(--font-sans); font-size: 13.5px; line-height: 1.65; }
 th { background: var(--bg-surface-elevated); color: var(--accent-gold-bright); text-align: left; padding: 10px 12px; border: 1px solid var(--border-outer); }
 td { padding: 9px 12px; border: 1px solid var(--border-inner); vertical-align: top; }
 
@@ -506,15 +528,336 @@ td { padding: 9px 12px; border: 1px solid var(--border-inner); vertical-align: t
 .lightbox-counter { display: inline-block; font-size: 11.5px; color: #16100A; background: #DFB766; padding: 2px 9px; border-radius: 2px; font-weight: 700; margin-bottom: 6px; }
 .lightbox-caption { font-size: 13.5px; color: #EDE4D3; line-height: 1.65; }
 
+/* ---------- Responsive Design & Mobile Optimization ---------- */
 @media (max-width: 980px) {
   .reader-shell { grid-template-columns: 1fr; padding: 18px 14px 56px; }
-  .toc-drawer { position: fixed; inset: 0; z-index: 650; background: rgba(0, 0, 0, 0.72); display: none; padding: 16px; }
-  .toc-drawer.open { display: block; }
-  .toc-panel { max-height: calc(100vh - 32px); }
-  .mobile-close { display: inline-block; }
-  .mobile-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding: 10px 14px; background: var(--bg-surface); border: 1px solid var(--border-outer); border-radius: 4px; font-family: var(--font-sans); font-size: 13px; }
+  .toc-drawer {
+    position: fixed; inset: 0; z-index: 650;
+    background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(4px);
+    display: none; padding: 16px;
+    align-items: center; justify-content: center;
+  }
+  .toc-drawer.open { display: flex; }
+  .toc-panel {
+    width: 100%; max-width: 460px;
+    max-height: calc(100vh - 32px);
+  }
+  .mobile-close { display: inline-block; padding: 4px 8px; }
+  .mobile-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; padding: 10px 14px;
+    background: var(--bg-surface); border: 1px solid var(--border-outer);
+    border-radius: 4px; font-family: var(--font-sans); font-size: 13px;
+  }
   .manuscript-surface { padding: 26px 20px; }
   .telemetry-rank { display: none; }
+}
+
+@media (max-width: 768px) {
+  /* Telemetry bar: slim, horizontal scrolling, no multi-row clumping */
+  .telemetry-bar {
+    top: 0;
+    border-bottom: 1px solid var(--border-outer);
+  }
+  .telemetry-inner {
+    padding: 6px 10px;
+    gap: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .telemetry-inner::-webkit-scrollbar { display: none; }
+  .telemetry-axis {
+    flex-shrink: 0;
+    font-size: 11px;
+    gap: 5px;
+  }
+  .axis-label {
+    max-width: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+  }
+  .zone-pill {
+    font-size: 10px;
+    padding: 1px 6px;
+  }
+  .telemetry-controls {
+    flex-shrink: 0;
+    gap: 4px;
+    flex-wrap: nowrap;
+  }
+  .telemetry-controls #btnPrintTop,
+  .telemetry-controls #btnFocusToggle {
+    display: none !important;
+  }
+  .btn-mini {
+    padding: 2px 6px !important;
+    font-size: 11px !important;
+    white-space: nowrap;
+  }
+
+  /* Entrance Topbar: responsive wrapping */
+  .entrance-topbar {
+    padding: 10px 14px;
+    gap: 8px;
+    justify-content: center;
+  }
+  .pol-pill {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+  .topbar-actions {
+    width: 100%;
+    justify-content: center;
+    gap: 4px;
+  }
+  .topbar-actions .pol-btn {
+    padding: 4px 7px;
+    font-size: 11px;
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
+  /* Entrance Center & Hero Typography */
+  .toau-entrance { min-height: auto; }
+  .entrance-center {
+    padding: 14px 12px 28px;
+  }
+  .ffxi-lockup {
+    margin-bottom: 14px;
+  }
+  .ffxi-title {
+    font-size: clamp(22px, 6.2vw, 32px);
+    letter-spacing: 0.08em;
+  }
+  .ffxi-online-bar {
+    max-width: 260px;
+    margin: 2px auto 6px;
+    gap: 8px;
+  }
+  .toau-script {
+    font-size: clamp(20px, 5.6vw, 28px);
+  }
+  .monograph-title {
+    font-size: clamp(20px, 5.2vw, 26px);
+    margin: 10px 0 6px;
+    line-height: 1.35;
+  }
+  .monograph-tagline {
+    font-size: clamp(13px, 3.6vw, 15.5px);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .monograph-lead {
+    font-size: 13.5px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    padding: 0 4px;
+  }
+  .entrance-meta-strip {
+    font-size: 11px;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .entrance-cta-row {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .cta-primary, .cta-secondary {
+    width: 100%;
+    text-align: center;
+    padding: 11px 16px;
+    font-size: 13px;
+  }
+
+  /* Sticky Mobile Bar for quick TOC & Section Navigation */
+  .reader-shell {
+    padding: 10px 8px 44px;
+    gap: 10px;
+  }
+  .mobile-bar {
+    position: sticky;
+    top: 38px;
+    z-index: 550;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-outer);
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(8px);
+  }
+  .mobile-bar #btnOpenToc {
+    padding: 6px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .mobile-cur-sec {
+    font-size: 12px;
+    color: var(--accent-gold-bright);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: right;
+    cursor: pointer;
+  }
+
+  /* Manuscript Reading Surface */
+  .manuscript-surface {
+    padding: 18px 12px;
+    box-shadow: inset 0 0 0 2px var(--bg-surface-solid), inset 0 0 0 3px var(--border-inner), var(--shadow-panel);
+  }
+  .doc-section {
+    margin-bottom: 40px;
+    scroll-margin-top: 84px;
+  }
+  .section-title {
+    font-size: clamp(1.2em, 5vw, 1.4em);
+    line-height: 1.38;
+    margin: 0 0 10px;
+    padding-bottom: 10px;
+  }
+  .subsection-title {
+    font-size: 1.05em;
+    line-height: 1.45;
+    margin: 26px 0 12px;
+    padding: 6px 10px;
+    scroll-margin-top: 84px;
+  }
+  .manuscript-surface p.ffxi-dialogue {
+    margin: 14px 0 18px;
+    padding: 12px 12px 16px;
+    font-size: 0.9em;
+    line-height: 1.75;
+  }
+  .manuscript-surface p.ffxi-dialogue::after {
+    right: 8px;
+    bottom: 4px;
+  }
+
+  /* Figures & Image Cards on Mobile */
+  .game-figure, .diagram-figure {
+    margin: 18px 0 22px;
+    padding: 7px;
+  }
+  .figure-frame {
+    background: #080604;
+  }
+  .figure-frame img {
+    max-height: 250px;
+    object-fit: contain;
+    background: #070503;
+  }
+  .game-figure figcaption, .diagram-figure figcaption {
+    font-size: 12px;
+    line-height: 1.58;
+    margin-top: 8px;
+    padding: 0 2px;
+  }
+
+  /* Inline Footnote Drawer on Mobile */
+  .inline-fn-drawer {
+    margin: 4px 0 16px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.66;
+  }
+  .inline-fn-header {
+    font-size: 11.5px;
+  }
+  .inline-fn-close {
+    padding: 3px 8px;
+    font-size: 11.5px;
+  }
+
+  /* TOC Drawer on Mobile */
+  .toc-drawer {
+    padding: 8px;
+  }
+  .toc-panel {
+    max-height: calc(100vh - 16px);
+    padding: 12px 10px;
+  }
+
+  /* Soultrapper Lightbox on Mobile */
+  .lightbox {
+    padding: max(10px, env(safe-area-inset-top)) 6px max(10px, env(safe-area-inset-bottom));
+  }
+  .lightbox-close {
+    top: max(10px, env(safe-area-inset-top));
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    z-index: 720;
+  }
+  .lightbox-nav {
+    width: 32px;
+    height: 48px;
+    font-size: 20px;
+    background: rgba(18, 12, 7, 0.78);
+    border-radius: 3px;
+    z-index: 710;
+  }
+  .lightbox-prev { left: 4px; }
+  .lightbox-next { right: 4px; }
+  .viewfinder-stage {
+    max-width: 98vw;
+    padding: 4px;
+  }
+  .viewfinder-stage img {
+    max-width: 94vw;
+    max-height: 50vh;
+    object-fit: contain;
+  }
+  .lightbox-meta {
+    max-width: 94vw;
+    margin-top: 8px;
+  }
+  .lightbox-counter {
+    font-size: 10.5px;
+    padding: 1px 7px;
+  }
+  .lightbox-caption {
+    font-size: 12px;
+    line-height: 1.5;
+    max-height: 22vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 480px) {
+  .axis-label {
+    max-width: 90px;
+    font-size: 10px;
+  }
+  .zone-pill {
+    font-size: 9.5px;
+    padding: 1px 4px;
+  }
+  .manuscript-surface {
+    padding: 14px 10px;
+  }
+  .section-title {
+    font-size: 1.18em;
+  }
+  .subsection-title {
+    font-size: 1em;
+    padding: 5px 8px;
+  }
+  .manuscript-surface p {
+    font-size: 0.96em;
+    line-height: 1.82;
+  }
 }
 
 @page { size: A4; margin: 18mm 16mm; }
