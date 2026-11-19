@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="toau-dusk" data-zone="zone-whitegate" data-ambient="on" data-focus="off">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>青金契约、冷白遗迹与发条之心 | FINAL FANTASY XI: Treasures of Aht Urhgan 批评典藏馆</title>
+  <meta name="description" content="《最终幻想XI：阿特尔冈的秘宝》长篇游戏批评在线阅读站：现代性铁笼、拜物教批判与主奴辩证法（18幅实机截图 · 知觉氛围典藏版）" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- Whisper-quiet chapter-reactive atmospheric particle & light canvas -->
+  <canvas id="ambientCanvas" class="ambient-canvas" aria-hidden="true"></canvas>
+  <div class="ambient-vignette" aria-hidden="true"></div>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+
+  <!-- Sticky PlayOnline Perceptual Telemetry Bar -->
+  <div class="telemetry-bar" id="telemetryBar" aria-label="理论主轴与知觉场罗盘">
+    <div class="telemetry-inner">
+      <div class="telemetry-axis">
+        <span class="zone-pill" id="zonePill">白门商埠</span>
+        <span class="axis-label" id="axisLabel">总问题意识 · 韦伯：现代性的铁笼</span>
+      </div>
+      <div class="telemetry-rank" title="仿萨拉希姆哨兵公司 11 阶佣兵考评进度">
+        <span class="rank-badge" id="rankBadge">PSC · 山猫二等兵</span>
+        <span class="rank-pct" id="rankPct">0%</span>
+      </div>
+      <div class="telemetry-controls">
+        <button class="pol-btn btn-mini active" id="btnAmbientToggle" title="切换随章节演化的知觉氛围场与微粒光效">氛围场：开</button>
+        <button class="pol-btn btn-mini" id="btnFocusToggle" title="收起侧栏进入沉浸专注阅读">专注阅读</button>
+        <button class="pol-btn btn-mini" data-theme-btn="toau-dusk">暗金</button>
+        <button class="pol-btn btn-mini" data-theme-btn="parchment">羊皮</button>
+        <button class="pol-btn btn-mini" data-theme-btn="alzadaal">冷白</button>
+        <button class="pol-btn btn-mini" id="btnGalleryOpen" title="浏览全篇 18 幅实机游戏截图档案">图鉴 (18)</button>
+        <button class="pol-btn btn-mini pol-btn-gold" id="btnPrintTop">PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PlayOnline TOAU Entrance Hero -->
+  <header class="toau-entrance" id="top">
+    <div class="entrance-backdrop" id="entranceBackdrop"></div>
+    <div class="entrance-dusk-overlay"></div>
+    <div class="entrance-lantern-glow"></div>
+
+    <div class="entrance-topbar">
+      <a class="pol-pill" href="https://www.playonline.com/ff11/ahturhgan/entrance/index.html" target="_blank" rel="noopener noreferrer">
+        <span class="pol-arrow">▸</span> PLAYONLINE · AHT URHGAN ARCHIVE
+      </a>
+      <div class="topbar-actions">
+        <button class="pol-btn" data-theme-btn="toau-dusk" title="仿官网暮色暗金主题">官网暗金</button>
+        <button class="pol-btn" data-theme-btn="parchment" title="白门羊皮卷日间主题">白门羊皮</button>
+        <button class="pol-btn" data-theme-btn="alzadaal" title="阿尔扎达尔冷白主题">遗迹冷白</button>
+        <button class="pol-btn" id="btnFontDec" title="缩小字号">A-</button>
+        <button class="pol-btn" id="btnFontInc" title="放大字号">A+</button>
+        <button class="pol-btn pol-btn-gold" id="btnPrint">打印 / PDF</button>
+      </div>
+    </div>
+
+    <div class="entrance-center">
+      <div class="ffxi-lockup">
+        <div class="ffxi-title">FINAL FANTASY XI</div>
+        <div class="ffxi-online-bar">
+          <span class="steel-line"></span>
+          <span class="ffxi-online">O N L I N E</span>
+          <span class="steel-line"></span>
+        </div>
+        <div class="toau-script">Treasures of Aht Urhgan</div>
+      </div>
+
+      <h1 class="monograph-title">青金契约、冷白遗迹与发条之心</h1>
+      <p class="monograph-tagline">《最终幻想XI：阿特尔冈的秘宝》中的现代性铁笼、拜物教批判与主奴辩证法</p>
+      <p class="monograph-lead">
+        驶向东方埃拉西亚大陆的暗碧海风帆之下，阿特尔冈皇国并非停滞的异域幻梦，而是一座局部受制于严密算术法则、总体却受制于盲目拜物教危机的晚期现代性铁笼。
+      </p>
+
+      <div class="entrance-meta-strip">
+        <span>最终出版洁本</span>
+        <span class="meta-dot">◆</span>
+        <span>18 幅 FFXI 实机游戏截图</span>
+        <span class="meta-dot">◆</span>
+        <span>55 条悬停 / 原地展开注释</span>
+        <span class="meta-dot">◆</span>
+        <span>四重章节知觉氛围场</span>
+      </div>
+
+      <div class="entrance-cta-row">
+        <a href="#intro" class="cta-primary">▸ 踏入白门码头 · 开始阅读</a>
+        <a href="#abstract" class="cta-secondary">摘要与理论架构</a>
+        <button type="button" class="cta-secondary" id="btnHeroGallery">浏览 18 幅实机图鉴</button>
+      </div>
+    </div>
+
+    <div class="ornate-divider" aria-hidden="true">
+      <span class="ornate-line"></span>
+      <span class="ornate-diamond">✦ ❖ ✦</span>
+      <span class="ornate-line"></span>
+    </div>
+  </header>
+
+  <!-- Main 2-Column Reader Shell -->
+  <div class="reader-shell" id="readerShell">
+    <aside class="toc-drawer" id="tocDrawer" aria-label="目录与检索">
+      <div class="ornate-panel toc-panel">
+        <div class="panel-header">
+          <span class="panel-title">▸ 典籍目录 · CONTENTS</span>
+          <button class="mobile-close" id="btnCloseToc" aria-label="关闭目录">✕</button>
+        </div>
+
+        <div class="axis-legend" aria-label="四重知觉场图例">
+          <span class="legend-chip z-wg">白门商埠</span>
+          <span class="legend-chip z-az">冷白遗迹</span>
+          <span class="legend-chip z-cf">漆黑发条</span>
+          <span class="legend-chip z-rg">诸神归航</span>
+        </div>
+
+        <div class="search-box">
+          <input type="search" id="searchInput" placeholder="检索正文关键词、人物或注号..." aria-label="全文检索" />
+          <div class="search-status" id="searchStatus"></div>
+        </div>
+
+        <nav class="toc-nav" id="tocNav">
+          <div class="loading-hint">正在载入阿特尔冈档案……</div>
+        </nav>
+
+        <div class="panel-footer">
+          <a href="#top" class="back-top-link">▲ 返回白门入口</a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="manuscript-column" id="manuscriptColumn">
+      <div class="mobile-bar">
+        <button class="pol-btn pol-btn-gold" id="btnOpenToc">☰ 目录与检索</button>
+        <span class="mobile-cur-sec" id="mobileCurSec">导言</span>
+      </div>
+
+      <article class="ornate-panel manuscript-surface" id="articleRoot">
+        <div class="loading-state">正在加载《青金契约、冷白遗迹与发条之心》全文、18 幅实机截图与 55 条一手尾注……</div>
+      </article>
+
+      <footer class="site-footer">
+        <div class="ornate-divider compact" aria-hidden="true">
+          <span class="ornate-line"></span>
+          <span class="ornate-diamond">✦ ❖ ✦</span>
+          <span class="ornate-line"></span>
+        </div>
+        <p class="footer-note">
+          本文视觉美学致敬 Square Enix《FINAL FANTASY XI: Treasures of Aht Urhgan》2006 年
+          <a href="https://www.playonline.com/ff11/ahturhgan/entrance/index.html" target="_blank" rel="noopener noreferrer">PlayOnline 官方入口页</a>。
+          所有游戏实机截图版权归属 © SQUARE ENIX CO., LTD. 及对应维基/社区档案作者，仅作学术批评与非营利研究征引。
+        </p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Non-Jumping Floating Footnote Card (Hover) -->
+  <div class="fn-popover" id="fnPopover" role="tooltip" aria-hidden="true"></div>
+
+  <!-- Soultrapper Viewfinder Screenshot Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="关闭大图">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="上一张实机截图">‹</button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="下一张实机截图">›</button>
+    <div class="viewfinder-stage">
+      <span class="vf-corner vf-tl"></span><span class="vf-corner vf-tr"></span>
+      <span class="vf-corner vf-bl"></span><span class="vf-corner vf-br"></span>
+      <img id="lightboxImg" src="" alt="" />
+    </div>
+    <div class="lightbox-meta">
+      <span class="lightbox-counter" id="lightboxCounter">1 / 18</span>
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
