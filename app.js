@@ -421,8 +421,9 @@
       }
       if (activeSec) {
         tocLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("data-toc-id") === activeSec.id));
-        if (mobileCur) mobileCur.textContent = activeSec.getAttribute("data-section-title").slice(0, 18);
-        if (axisLabel) axisLabel.textContent = activeSec.getAttribute("data-axis");
+        const secTitle = activeSec.getAttribute("data-section-title") || "";
+        if (mobileCur) mobileCur.textContent = secTitle.slice(0, 18);
+        if (axisLabel) axisLabel.textContent = activeSec.getAttribute("data-axis") || "";
         if (zonePill) zonePill.textContent = activeSec.getAttribute("data-pill") || "白门商埠";
         const z = activeSec.getAttribute("data-zone");
         if (z) {
@@ -436,20 +437,7 @@
   }
 
   function setupControls() {
-    const applyTheme = (t) => {
-      document.documentElement.setAttribute("data-theme", t);
-      document.querySelectorAll("[data-theme-btn]").forEach((b) => {
-        b.classList.toggle("active", b.getAttribute("data-theme-btn") === t);
-      });
-      try { localStorage.setItem("toau_theme", t); } catch (_) {}
-    };
-
-    const saved = (() => { try { return localStorage.getItem("toau_theme"); } catch (_) { return null; } })();
-    applyTheme(saved || "toau-dusk");
-
-    document.querySelectorAll("[data-theme-btn]").forEach((btn) => {
-      btn.addEventListener("click", () => applyTheme(btn.getAttribute("data-theme-btn")));
-    });
+    document.documentElement.setAttribute("data-theme", "toau-dusk");
 
     const ambBtn = document.getElementById("btnAmbientToggle");
     if (ambBtn) {

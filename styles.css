@@ -133,14 +133,13 @@
 *, *::before, *::after { box-sizing: border-box; }
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
-  max-width: 100vw;
   -webkit-text-size-adjust: 100%;
 }
 body {
   margin: 0;
+  width: 100%;
+  min-height: 100%;
   overflow-x: hidden;
-  max-width: 100vw;
   background: var(--bg-page);
   background-image: radial-gradient(ellipse at 50% 8%, var(--ambient-glow), transparent 62%);
   color: var(--text-primary);
@@ -167,7 +166,7 @@ code, pre {
 
 /* ---------- Whisper-Quiet Atmospheric Canvas & Vignette ---------- */
 .ambient-canvas {
-  position: fixed; inset: 0; width: 100vw; height: 100vh;
+  position: fixed; inset: 0; width: 100%; height: 100%;
   pointer-events: none; z-index: 0; opacity: 0.78;
   transition: opacity 0.8s ease;
 }
@@ -530,7 +529,30 @@ td { padding: 9px 12px; border: 1px solid var(--border-inner); vertical-align: t
 
 /* ---------- Responsive Design & Mobile Optimization ---------- */
 @media (max-width: 980px) {
-  .reader-shell { grid-template-columns: 1fr; padding: 18px 14px 56px; }
+  .reader-shell {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 16px 12px 56px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
+  .manuscript-column {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .manuscript-surface {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 24px 18px !important;
+    overflow: hidden !important;
+  }
   .toc-drawer {
     position: fixed; inset: 0; z-index: 650;
     background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(4px);
@@ -549,7 +571,6 @@ td { padding: 9px 12px; border: 1px solid var(--border-inner); vertical-align: t
     background: var(--bg-surface); border: 1px solid var(--border-outer);
     border-radius: 4px; font-family: var(--font-sans); font-size: 13px;
   }
-  .manuscript-surface { padding: 26px 20px; }
   .telemetry-rank { display: none; }
 }
 
@@ -679,8 +700,18 @@ td { padding: 9px 12px; border: 1px solid var(--border-inner); vertical-align: t
 
   /* Sticky Mobile Bar for quick TOC & Section Navigation */
   .reader-shell {
-    padding: 10px 8px 44px;
-    gap: 10px;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 10px 8px 44px !important;
+    box-sizing: border-box !important;
+  }
+  .manuscript-column {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
   }
   .mobile-bar {
     position: sticky;
@@ -712,8 +743,23 @@ td { padding: 9px 12px; border: 1px solid var(--border-inner); vertical-align: t
 
   /* Manuscript Reading Surface */
   .manuscript-surface {
-    padding: 18px 12px;
-    box-shadow: inset 0 0 0 2px var(--bg-surface-solid), inset 0 0 0 3px var(--border-inner), var(--shadow-panel);
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 18px 12px !important;
+    box-shadow: inset 0 0 0 1px var(--bg-surface-solid), inset 0 0 0 2px var(--border-inner), var(--shadow-panel) !important;
+  }
+  .manuscript-surface p {
+    text-align: left !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    margin-bottom: 1.15em;
+  }
+  .manuscript-surface li {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
   }
   .doc-section {
     margin-bottom: 40px;
@@ -844,19 +890,22 @@ td { padding: 9px 12px; border: 1px solid var(--border-inner); vertical-align: t
     font-size: 9.5px;
     padding: 1px 4px;
   }
+  .reader-shell {
+    padding: 8px 4px 36px !important;
+  }
   .manuscript-surface {
-    padding: 14px 10px;
+    padding: 14px 8px !important;
   }
   .section-title {
-    font-size: 1.18em;
+    font-size: 1.16em;
   }
   .subsection-title {
     font-size: 1em;
     padding: 5px 8px;
   }
   .manuscript-surface p {
-    font-size: 0.96em;
-    line-height: 1.82;
+    font-size: 0.95em;
+    line-height: 1.8;
   }
 }
 
