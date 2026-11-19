@@ -157,6 +157,14 @@ p, li, dd, dt, th, td, figcaption, .footnote-item, .inline-fn-body {
 a {
   overflow-wrap: anywhere;
   word-break: break-word;
+  color: var(--accent-gold-bright);
+  text-decoration: underline;
+  text-decoration-color: rgba(212, 170, 90, 0.45);
+  text-underline-offset: 3px;
+  transition: color 0.18s ease;
+}
+a:hover {
+  color: var(--accent-steel);
 }
 code, pre {
   overflow-x: auto;
@@ -470,6 +478,34 @@ button.fn-ref:hover, button.fn-ref[aria-expanded="true"] {
   border: 1px solid var(--accent-gold); border-radius: 4px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
   font-family: var(--font-sans); font-size: 13px; line-height: 1.7; display: none;
+}
+.fn-popover a,
+.inline-fn-drawer a,
+.inline-fn-body a,
+.footnote-item a {
+  color: var(--accent-gold-bright) !important;
+  text-decoration: underline;
+  text-decoration-color: rgba(212, 170, 90, 0.45);
+  text-underline-offset: 3px;
+  transition: color 0.18s ease;
+}
+.fn-popover a:hover,
+.inline-fn-drawer a:hover,
+.inline-fn-body a:hover,
+.footnote-item a:hover {
+  color: var(--accent-steel) !important;
+  text-decoration-color: var(--accent-steel);
+}
+.fn-popover strong,
+.inline-fn-drawer strong,
+.inline-fn-body strong {
+  color: var(--accent-gold-bright);
+}
+.fn-popover em,
+.inline-fn-drawer em,
+.inline-fn-body em {
+  color: var(--accent-gold);
+  font-style: italic;
 }
 .fn-popover-tip { font-size: 11px; color: var(--accent-gold); margin-top: 8px; padding-top: 6px; border-top: 1px solid var(--border-inner); }
 
